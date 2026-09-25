@@ -1,0 +1,382 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1"><style>:root{color-scheme:light}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>portfolio</title>
+
+<!--
+  ============================================================
+  THOMAS SORENSEN — personal site
+  Brand: "Storm" — built on the Rivian R1T (Storm Blue).
+  Signature devices:
+    1. The light bar  -> .lightbar (the LED bar across the truck's front/rear)
+    2. The stadium oval -> .stadium / .monogram / timeline nodes (headlight shape)
+    3. Dashboard mono   -> .mono (all numerals, like the speedometer)
+  No frameworks, no build step, no JS. One web font (Lato). Edit tokens in :root.
+  ============================================================
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS  (all colors sampled from the truck photos)
+   ============================================================ */
+:root{
+  color-scheme: light;
+
+  /* --- Storm Blue family (the body paint) --- */
+  --storm-900:#14212A;   /* deepest — hero & footer backgrounds        */
+  --storm-800:#1B2C36;   /* dark section background                    */
+  --storm-700:#283B47;   /* true body blue, sampled — primary          */
+  --storm-600:#324957;   /* sunlit panel, sampled                      */
+  --slate-500:#3F6076;   /* mid accent — links / accents on light      */
+  --slate-400:#6E8A9A;   /* muted blue-grey — secondary text on dark   */
+
+  /* --- Silver body + light base --- */
+  --silver-050:#F4F4F1;  /* page background (warm near-white)           */
+  --silver-100:#ECECE8;
+  --silver-200:#DADAD8;  /* body silver, sampled — panels              */
+  --silver-300:#C6C7C3;  /* hairline borders on light                  */
+
+  /* --- Graphite cladding (dark neutral / text) --- */
+  --graphite-900:#1F2327; /* primary text on light, sampled ~#2A2A2A   */
+  --graphite-600:#4C5155; /* secondary text on light                   */
+
+  /* --- Compass Yellow (the single marker — use once) --- */
+  --compass:#ECC24E;      /* sampled from the fender marker            */
+
+  --white:#FFFFFF;        /* LED glow                                   */
+
+  /* --- Type --- */
+  --sans: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* --- Rhythm --- */
+  --pad: clamp(1.25rem, 5vw, 6rem);   /* page side padding */
+  --maxw: 1120px;
+}
+
+/* ============================================================
+   2. RESET / BASE
+   ============================================================ */
+*{ box-sizing:border-box; margin:0; }
+html{ background:var(--silver-050); scroll-behavior:smooth; }
+body{
+  font-family:var(--sans);
+  font-weight:400;
+  color:var(--graphite-900);
+  background:var(--silver-050);
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{ color:var(--slate-500); text-decoration:none; }
+a:hover{ text-decoration:underline; }
+img{ max-width:100%; display:block; }
+
+.wrap{ max-width:var(--maxw); margin-inline:auto; padding-inline:var(--pad); }
+
+/* Dashboard-style mono readout (years, labels, coordinates) */
+.mono{
+  font-family:var(--mono);
+  font-size:.78rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+/* ============================================================
+   3. SIGNATURE DEVICE — the light bar
+   (The LED bar across the front and rear of the truck.
+    A single glowing line, brightest in the middle, fading at both ends.)
+   ============================================================ */
+.lightbar{
+  height:3px;
+  border-radius:999px;
+  background:linear-gradient(90deg, transparent, var(--white) 20%, var(--white) 80%, transparent);
+  box-shadow:0 0 18px rgba(255,255,255,.5);
+}
+
+/* A slimmer, quieter version used as a section divider */
+.divider{
+  height:2px;
+  box-shadow:none;
+  background:linear-gradient(90deg, transparent, var(--slate-500), transparent);
+}
+.divider.on-dark{ background:linear-gradient(90deg, transparent, var(--slate-400), transparent); }
+
+/* ============================================================
+   4. HERO  (dark — the front of the truck powering on)
+   ============================================================ */
+.hero{
+  background:radial-gradient(120% 90% at 50% -10%, var(--storm-700), var(--storm-900) 70%);
+  color:var(--silver-050);
+  padding-block:clamp(4rem, 12vh, 9rem);
+}
+.hero .wrap{ display:flex; flex-direction:column; align-items:center; text-align:center; gap:2.2rem; }
+.hero .lightbar{ width:min(520px, 84vw); }
+
+/* Monogram inside a stadium oval — echoes the R1T headlight shape */
+.monogram{
+  width:88px; height:132px; border-radius:999px;
+  border:2px solid var(--slate-400);
+  display:grid; place-items:center;
+  font-weight:900; font-size:1.9rem; letter-spacing:.06em;
+  color:var(--silver-050);
+  background:radial-gradient(130% 55% at 50% 15%, rgba(255,255,255,.12), transparent 60%), var(--storm-800);
+}
+
+.wordmark{
+  font-weight:900;
+  font-size:clamp(2.4rem, 8vw, 5.5rem);
+  line-height:.98;
+  letter-spacing:.14em;             /* wide tracking — the RIVIAN wordmark feel */
+  text-transform:uppercase;
+  margin-inline:-.14em;             /* optically re-center the tracked caps */
+}
+.tagline{
+  max-width:36ch;
+  font-weight:300;
+  font-size:clamp(1.05rem, 2.4vw, 1.4rem);
+  color:var(--silver-200);
+}
+.readout{ color:var(--slate-400); }
+.readout b{ color:var(--compass); font-weight:700; }   /* the one yellow marker */
+
+/* Stadium (pill) button — the headlight geometry as a control */
+.stadium{
+  display:inline-flex; align-items:center; gap:.6rem;
+  padding:.85rem 1.6rem;
+  border-radius:999px;
+  font-weight:700; font-size:.95rem; letter-spacing:.02em;
+  border:2px solid var(--silver-050);
+  color:var(--silver-050);
+  background:transparent;
+  transition:background .18s ease, color .18s ease;
+}
+.stadium:hover{ background:var(--silver-050); color:var(--storm-900); text-decoration:none; }
+.stadium.solid{ background:var(--silver-050); color:var(--storm-900); border-color:var(--silver-050); }
+.stadium.solid:hover{ background:transparent; color:var(--silver-050); }
+.cta-row{ display:flex; gap:.9rem; flex-wrap:wrap; justify-content:center; }
+
+/* ============================================================
+   5. SECTION SCAFFOLD
+   ============================================================ */
+section{ padding-block:clamp(3.5rem, 9vh, 7rem); }
+.light{ background:var(--silver-050); color:var(--graphite-900); }
+.dark { background:var(--storm-800); color:var(--silver-050); }
+
+.sec-head{ display:flex; flex-direction:column; gap:1rem; margin-bottom:3rem; }
+.sec-index{ color:var(--slate-500); }
+.dark .sec-index{ color:var(--slate-400); }
+.sec-title{ font-weight:900; font-size:clamp(1.7rem, 4.5vw, 2.6rem); letter-spacing:.01em; }
+.sec-head .divider{ width:100%; }      /* the light bar over each section */
+
+/* ============================================================
+   6. WORK HISTORY  — timeline on the light-bar spine
+   ============================================================ */
+.note{
+  font-size:.85rem; color:var(--graphite-600);
+  border-left:3px solid var(--compass);
+  padding:.5rem 0 .5rem .9rem; margin-bottom:2.4rem; max-width:60ch;
+}
+.timeline{ position:relative; padding-left:2.4rem; }
+.timeline::before{            /* the vertical light bar (spine) */
+  content:""; position:absolute; left:7px; top:6px; bottom:6px; width:2px;
+  background:linear-gradient(180deg, var(--slate-500), var(--silver-300));
+}
+.role{ position:relative; padding-block:1.3rem; }
+.role::before{                /* stadium node */
+  content:""; position:absolute; left:-2.4rem; top:1.7rem;
+  width:16px; height:26px; border-radius:999px;
+  border:2px solid var(--slate-500); background:var(--silver-050);
+}
+.role + .role{ border-top:1px solid var(--silver-300); }
+.role .yr{ color:var(--slate-500); display:block; margin-bottom:.35rem; }
+.role h3{ font-size:1.2rem; font-weight:700; }
+.role .co{ color:var(--graphite-600); font-weight:400; }
+.role p{ margin-top:.4rem; color:var(--graphite-600); max-width:62ch; }
+
+/* ============================================================
+   7. "WORKING WITH ME" — spec sheet (like a vehicle spec table)
+   ============================================================ */
+.specs{ display:grid; gap:0; border-top:1px solid rgba(255,255,255,.14); }
+.spec{
+  display:grid; grid-template-columns:minmax(120px,180px) 1fr; gap:1.5rem;
+  padding:1.5rem 0; border-bottom:1px solid rgba(255,255,255,.14);
+}
+.spec .k{ color:var(--slate-400); align-self:start; padding-top:.15rem; }
+.spec .v{ font-size:1.1rem; font-weight:300; color:var(--silver-100); }
+.spec .v b{ font-weight:700; color:var(--white); }
+
+/* ============================================================
+   8. CONTACT / FOOTER  (rear of the truck — full-width light bar)
+   ============================================================ */
+.foot{ background:var(--storm-900); color:var(--silver-100); padding-block:clamp(3rem,8vh,6rem); }
+.foot .bar-full{
+  height:3px; border-radius:3px; margin-bottom:2.6rem;
+  background:linear-gradient(90deg, transparent, var(--white) 15%, var(--white) 85%, transparent);
+  box-shadow:0 0 14px rgba(255,255,255,.4);
+}
+.foot h2{ font-weight:900; font-size:clamp(1.6rem,4.5vw,2.4rem); letter-spacing:.02em; }
+.foot .email{ display:inline-block; margin-top:1rem; font-size:clamp(1.05rem,2.8vw,1.5rem); color:var(--silver-050); font-weight:700; }
+.foot .meta{ margin-top:2.4rem; color:var(--slate-400); display:flex; gap:.6rem; flex-wrap:wrap; align-items:center; }
+.foot .meta .dot{ opacity:.5; }
+
+/* ============================================================
+   9. THE ONE MOTION MOMENT — power-on sequence on load
+   ============================================================ */
+@keyframes barOn{ from{ transform:scaleX(0); opacity:0; } to{ transform:scaleX(1); opacity:1; } }
+@keyframes riseIn{ from{ opacity:0; transform:translateY(14px); } to{ opacity:1; transform:none; } }
+
+.hero .lightbar{ transform-origin:center; animation:barOn .8s cubic-bezier(.22,1,.36,1) .15s both; }
+.hero .monogram{ animation:riseIn .6s ease .8s both; }
+.hero .wordmark{ animation:riseIn .6s ease .95s both; }
+.hero .tagline{  animation:riseIn .6s ease 1.1s both; }
+.hero .readout{  animation:riseIn .6s ease 1.2s both; }
+.hero .cta-row{  animation:riseIn .6s ease 1.3s both; }
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; }
+  .hero .lightbar{ transform:none; opacity:1; }
+}
+
+/* Keyboard focus — visible, on-brand */
+a:focus-visible, .stadium:focus-visible{
+  outline:2px solid var(--compass); outline-offset:3px; border-radius:999px;
+}
+
+/* ============================================================
+   10. MOBILE
+   ============================================================ */
+@media (max-width:560px){
+  .spec{ grid-template-columns:1fr; gap:.4rem; }
+  .spec .k{ padding-top:0; }
+  .timeline{ padding-left:1.9rem; }
+  .role::before{ left:-1.9rem; }
+}
+.note code{ font-family:var(--mono); font-size:.82em; background:var(--silver-100); padding:.05em .35em; border-radius:4px; }
+</style>
+</head>
+
+<body>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="monogram" aria-hidden="true">TS</div>
+
+    <h1 class="wordmark">Thomas<br>Sorensen</h1>
+
+    <div class="lightbar" aria-hidden="true"></div>
+
+    <p class="tagline">Customer Success Engineer. I turn complex platforms into outcomes customers can measure.</p>
+
+    <p class="mono readout">Mountain View, CA <span class="dot">·</span> Customer Success <span class="dot">·</span> <b>Available</b></p>
+
+    <div class="cta-row">
+      <a class="stadium solid" href="#work">View work</a>
+      <a class="stadium" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ WORK ============================ -->
+<section id="work" class="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="divider" aria-hidden="true"></div>
+      <span class="mono sec-index">01 / Experience</span>
+      <h2 class="sec-title">Work history</h2>
+    </div>
+
+    <div class="timeline">
+      <article class="role">
+        <span class="mono yr">2025 – 2026</span>
+        <h3>Customer Support Engineer, L2 <span class="co">· AppZen</span></h3>
+        <p>The sole team member authorized to support compliance-restricted government and military clients, carrying a major enterprise deployment through go-live. Built a Postman API Runner workflow to safely automate high-risk configuration updates across hundreds of records, cutting per-client execution from up to 8 hours down to minutes.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2019 – 2024</span>
+        <h3>Customer Success Engineer III <span class="co">· Oura</span></h3>
+        <p>Five years at Oura, rising from Senior Technical Support Specialist through Customer Success Engineer I–III and Team Lead. Delivered white-glove support to VIP, enterprise, and military clients, and reduced API ticket volume 30% by tracing root causes and partnering with Design and Engineering on user-friendly UI fixes.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2014 – 2015</span>
+        <h3>IT Support Specialist <span class="co">· FinancialForce.com</span></h3>
+        <p>Ran software training bootcamps and resolved technical issues for a 300+ member international team; decreased IT support requests 20% by migrating internal email and calendars from Microsoft to Google.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2009 – 2013</span>
+        <h3>Family Room Specialist / Genius Bar <span class="co">· Apple</span></h3>
+        <p>Genius Bar repairs and One to One training across Apple hardware and software. Built an internal iBooks tool for finding the correct video adapters that reduced product returns 20%.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2004 – 2007</span>
+        <h3>Assistant Language Teacher <span class="co">· JET Programme, Japan</span></h3>
+        <p>The start of the arc: teaching, communication, and working across cultures. Taught myself HTML and CSS to build a website hosting video lessons — the interpersonal and self-taught-technical foundation under everything since.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2024</span>
+        <h3>Stanford Continuing Studies <span class="co">· BUS 100: Essential Business Skills</span></h3>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">2016</span>
+        <h3>Hack Reactor <span class="co">· Advanced Software Engineering Immersive</span></h3>
+        <p>Full-stack software engineering: JavaScript and the fundamentals behind the debugging, API, and tooling work.</p>
+      </article>
+
+      <article class="role">
+        <span class="mono yr">1998 – 2002</span>
+        <h3>University of Wisconsin-Madison <span class="co">· B.A., Theatre &amp; Drama</span></h3>
+        <p>Bachelor of Arts in Theatre and Drama, plus a Certificate in Integrated Liberal Studies.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WORKING WITH ME (placeholder) ==================== -->
+<!-- Thomas: you were undecided on this section. It's a "spec sheet" draft.
+     Fill in the values, or delete this whole <section> block to remove it. -->
+<section id="working" class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="divider on-dark" aria-hidden="true"></div>
+      <span class="mono sec-index">02 / Operating specs</span>
+      <h2 class="sec-title">What it's like to work with me</h2>
+    </div>
+
+    <p class="note" style="color:var(--slate-400);border-color:var(--compass)">Placeholder — draft your own principles or delete this section.</p>
+
+    <div class="specs">
+      <div class="spec"><span class="mono k">Default mode</span><span class="v"><b>Act, don't ask.</b> If it's reversible and cheap, I do it and tell you.</span></div>
+      <div class="spec"><span class="mono k">Communication</span><span class="v">Direct and specific. I lead with the recommendation, then the reasoning.</span></div>
+      <div class="spec"><span class="mono k">Ownership</span><span class="v"><b>Done means done.</b> Five things asked is five things delivered, with any blocker named in one sentence.</span></div>
+      <div class="spec"><span class="mono k">Under pressure</span><span class="v">Calm, methodical, honest about what I know versus what I'm still checking.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACT ============================ -->
+<footer id="contact" class="foot">
+  <div class="wrap">
+    <div class="bar-full" aria-hidden="true"></div>
+    <h2>Let's talk.</h2>
+    <a class="email" href="mailto:thomassorensensuccessengineer@gmail.com">thomassorensensuccessengineer@gmail.com</a>
+    <p class="mono meta">Thomas Sorensen <span class="dot">·</span> Customer Success Engineer <span class="dot">·</span> Mountain View, CA</p>
+  </div>
+</footer>
+
+</body>
+</html>
+
+</body></html>
